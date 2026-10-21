@@ -2,6 +2,11 @@
 #include <klib.h>
 #include <rtthread.h>
 
+static inline uintptr_t align_down(uintptr_t addr, uintptr_t alignment) {
+  assert(alignment != 0 && (alignment & (alignment - 1)) == 0);
+  return addr & ~(alignment - 1);
+}
+
 static Context* ev_handler(Event e, Context *c) {
   switch (e.event) {
     default: printf("Unhandled event ID = %d\n", e.event); assert(0);
